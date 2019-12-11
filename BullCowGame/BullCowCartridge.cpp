@@ -4,13 +4,16 @@
 void UBullCowCartridge::BeginPlay() // When the game starts
 {
     Super::BeginPlay();
+
+    SetupGame();
+
+    PrintLine(FString::Printf(TEXT("The hidden word is: %s"), *HiddenWord)); // Debug line
+    
     // Welcome message
     PrintLine(TEXT("Welcome to Bull Cows."));
     PrintLine(TEXT("Are you smarter than these cows?"));
-    PrintLine(TEXT("Enter the 5 letter word.")); // Magic Number
+    PrintLine(FString::Printf(TEXT("Enter the %i letter word."), HiddenWord.Len()));
     PrintLine(TEXT("And then press enter..."));
-    
-    SetupGame();
 }
 
 void UBullCowCartridge::OnInput(const FString& Input) // When the player hits enter
@@ -20,7 +23,7 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
         // If wrong amount, guess again
     if (Input.Len() != HiddenWord.Len() )
     {
-        PrintLine(TEXT("The hidden word is 5 letters long, try again!")); // Magic Number
+        PrintLine(TEXT("The hidden word is %i letters long, try again!"), HiddenWord.Len());
     }
     // Check if input has no repeating characters
         // If input has repeating characters, guess again
@@ -53,7 +56,7 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
 
 void UBullCowCartridge::SetupGame()
 {
-    HiddenWord = "bugle";
+    HiddenWord = TEXT("cake");
     
     // Set lives == the length of the HiddenWord string.
     Lives = HiddenWord.Len(); 
