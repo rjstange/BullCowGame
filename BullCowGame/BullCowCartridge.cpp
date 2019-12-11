@@ -1,6 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "BullCowCartridge.h"
 
+
+
 void UBullCowCartridge::BeginPlay() // When the game starts
 {
     Super::BeginPlay();
@@ -10,16 +12,12 @@ void UBullCowCartridge::BeginPlay() // When the game starts
     PrintLine(TEXT("Enter the 5 letter word.")); // Magic Number Remove!
     PrintLine(TEXT("And then press enter..."));
     
-    // Set HiddenWord from a list of possible words
-    HiddenWord = "bugle"; 
-
-    // Set lives == the length of the HiddenWord string.
+    SetupGame();
 }
 
 void UBullCowCartridge::OnInput(const FString& Input) // When the player hits enter
 {
     ClearScreen();
-    // Convert input to lowercase
     // Check if input has no repeating characters
         // If input has repeating characters, guess again
     // Check Right Amount of Characters
@@ -48,4 +46,10 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
     // Ask player if they want to play again
     // If Yes, go back to BeginPlay
     // If No, Quit
+}
+
+void UBullCowCartridge::SetupGame()
+{
+    HiddenWord = "bugle";
+    Lives = 5; // Set lives == the length of the HiddenWord string.
 }
