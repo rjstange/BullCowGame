@@ -19,7 +19,7 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
     {
         // Check Right Amount of Characters
             // If wrong amount, guess again
-        if (Input.Len() != HiddenWord.Len() )
+        if (Input.Len() != HiddenWord.Len())
         {
             PrintLine(TEXT("The hidden word is %i letters long\nTry again!"), HiddenWord.Len());
         }
@@ -33,16 +33,16 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
                 EndGame();
             }
             else
-            // If Lives is == 0, 
-                // Game Over
-                // Reveal HiddenWord
-
-            // If lives > 0 
-                // Reveal Remaining Lives
-                // Ask Again.
-            {
-                PrintLine(TEXT("Sorry, that is incorrect!")); 
-                EndGame();
+            {    
+                if (Lives > 0) 
+                {
+                    PrintLine(TEXT("Incorrect! You lost a life!\n%i more remaining!"), --Lives);
+                }
+                else
+                {
+                    PrintLine(TEXT("Sorry, that is incorrect!\nYou have no more lives!")); 
+                    EndGame();
+                }
             }
         }
     }
@@ -65,7 +65,8 @@ void UBullCowCartridge::SetupGame()
     // Welcome message
     PrintLine(TEXT("Welcome to Bull Cows."));
     PrintLine(TEXT("Are you smarter than these cows?"));
-    PrintLine(FString::Printf(TEXT("Enter the %i letter word.\nPress enter to continue..."), HiddenWord.Len()));
+    PrintLine(FString::Printf(TEXT("Enter the %i letter word."), HiddenWord.Len()));
+    PrintLine(TEXT("You have %i lives\nPress enter to continue..."), Lives);
 }
 
 void UBullCowCartridge::EndGame()
