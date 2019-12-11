@@ -17,6 +17,7 @@ class BULLCOWGAME_API UBullCowCartridge : public UCartridge
 	void SetupGame();
 	void EndGame();
 	void CheckGuess(FString Guess);
+	bool IsIsogram(FString Word);
 
 	private:
 	FString HiddenWord;

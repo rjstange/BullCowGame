@@ -19,10 +19,6 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
     {
         CheckGuess(Input);
     }
-    // After win or lose:
-    // Ask player if they want to play again
-    // If Yes, go back to BeginPlay
-    // If No, Quit
 }
 
 void UBullCowCartridge::SetupGame()
@@ -40,6 +36,8 @@ void UBullCowCartridge::SetupGame()
     PrintLine(TEXT("Are you smarter than these cows?"));
     PrintLine(FString::Printf(TEXT("Enter the %i letter word."), HiddenWord.Len()));
     PrintLine(TEXT("You have %i lives\nPress enter to continue..."), Lives);
+
+    const TCHAR HW[] = TEXT("cakes");
 }
 
 void UBullCowCartridge::EndGame()
@@ -67,6 +65,7 @@ void UBullCowCartridge::CheckGuess(FString Guess)
         EndGame();
         return;
     }
+
     // Check Right Amount of Characters
     if (Guess.Len() != HiddenWord.Len()) // If wrong amount, guess again
     {
@@ -75,14 +74,12 @@ void UBullCowCartridge::CheckGuess(FString Guess)
         return;
     }
 
-    // Check if input has no repeating characters
-    // If input has repeating characters, guess again
-    // if (!IsIsogram)
-    // {
-    //     /* code */
-    //     PrintLine(TEXT("Entry contains repeating characters\nTry again!"));
-    //     return;
-    // }
+    // Check if input has repeating characters
+    if (!IsIsogram(Guess))
+    {
+        PrintLine(TEXT("Entry contains repeating characters\nTry again!"));
+        return;
+    }
     
     // Lose a life
     PrintLine(TEXT("Incorrect! You lost a life!\n%i more remaining!"), --Lives);
@@ -93,4 +90,11 @@ void UBullCowCartridge::CheckGuess(FString Guess)
         EndGame();
         return;
     }
+}
+
+bool UBullCowCartridge::IsIsogram(FString Word)
+{
+    /* Loop over each character in Word, 
+    terminating early if the next character is the same */
+    return true;
 }
