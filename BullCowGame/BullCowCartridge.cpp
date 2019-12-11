@@ -45,36 +45,52 @@ void UBullCowCartridge::SetupGame()
 void UBullCowCartridge::EndGame()
 {
     bGameOver = true;
-    PrintLine(TEXT("Game over! Press Enter to Continue..."));
+    ClearScreen();
+    if (Lives == 0)
+    {
+        PrintLine(TEXT("You have no more lives!"));
+        PrintLine(TEXT("The hidden word was %s"), *HiddenWord);
+        PrintLine(TEXT("Game over!"));
+    }
+    else
+    {
+        PrintLine(TEXT("Correct! You win!"));
+    }
+    
+    PrintLine(TEXT("Press Enter to Play again..."));
 }
 
 void UBullCowCartridge::CheckGuess(FString Guess)
 {
+    if (Guess == HiddenWord)
+    {
+        EndGame();
+        return;
+    }
     // Check Right Amount of Characters
     if (Guess.Len() != HiddenWord.Len()) // If wrong amount, guess again
     {
         PrintLine(TEXT("The hidden word is %i letters long\nTry again!"), HiddenWord.Len());
+        PrintLine(TEXT("You have %i lives remaining."), Lives);
+        return;
     }
+
     // Check if input has no repeating characters
-        // If input has repeating characters, guess again
-    else
+    // If input has repeating characters, guess again
+    // if (!IsIsogram)
+    // {
+    //     /* code */
+    //     PrintLine(TEXT("Entry contains repeating characters\nTry again!"));
+    //     return;
+    // }
+    
+    // Lose a life
+    PrintLine(TEXT("Incorrect! You lost a life!\n%i more remaining!"), --Lives);
+    PrintLine(TEXT("The hidden word is %i letters long"), HiddenWord.Len());
+    
+    if (Lives == 0) 
     {
-        if (Guess == HiddenWord)
-        {
-            PrintLine(TEXT("Correct! You win!"));
-            EndGame();
-        }
-        else
-        {    
-            if (Lives > 0) 
-            {
-                PrintLine(TEXT("Incorrect! You lost a life!\n%i more remaining!"), --Lives);
-            }
-            else
-            {
-                PrintLine(TEXT("Sorry, that is incorrect!\nYou have no more lives!")); 
-                EndGame();
-            }
-        }
+        EndGame();
+        return;
     }
 }
